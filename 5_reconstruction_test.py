@@ -19,15 +19,17 @@ import pyvista as pv
 
 # plt.style.use('_mpl-gallery')
 
-pixmm = 0.1  # 0.1mm/pixel
+pixmm = 0.1 # 0.1mm/pixel
 Rmm = 2.42  # ball radius
+Rmm = 1.98  # ball radius
+
 R = Rmm / pixmm
 
 ref = cv2.imread('data/calibration/bg-0.jpg')
 
 def infer_gradient(feature):
-    model = torch.load('model/model_noxy.pt')
-    gradient = model(torch.tensor(feature[:,:3],dtype=torch.float32,device='cuda:0'))
+    model = torch.load('model/model3.pt')
+    gradient = model(torch.tensor(feature[:,:5],dtype=torch.float32,device='cuda:0'))
 
     return gradient
 
@@ -82,18 +84,18 @@ def get_contact_mask(img,ref,valid_mask):
     # cv2.waitKey(0)
 
     diff = abs(gray.astype('float')-gray_ref.astype('float'))
-
+    diff[300:320,:] = 0
     # cv2.imshow('diff',diff.astype('uint8'))
     # cv2.waitKey(0)
 
     ret,thresh_img = cv2.threshold(diff, 20, 255, cv2.THRESH_BINARY)
 
-    cv2.imshow('diff',thresh_img)
-    cv2.waitKey(0)
+    # cv2.imshow('diff',thresh_img)
+    # cv2.waitKey(0)
 
     contours, hierarchy = cv2.findContours(thresh_img.astype('uint8'), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     areas = [cv2.contourArea(c) for c in contours]
-    index = np.where(np.array(areas)>1)[0]
+    index = np.where(np.array(areas)>3)[0]
     cnt = contours[index[0]]
     for i in range(len(index)-1):
         cnt = np.concatenate([cnt,contours[index[i+1]]],axis=0)
@@ -131,7 +133,7 @@ def depth_map_plot(img):
 
 for i in range(1,2):
 
-    img = cv2.imread('data/test/cylinder2-2.jpg')
+    img = cv2.imread('data/test/usb-1.jpg')
 
     dot_mask = get_marker_mask(affine_transform(img), threshold = 100)
 

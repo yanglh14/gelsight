@@ -21,13 +21,15 @@ import pyvista as pv
 
 pixmm = 0.1  # 0.1mm/pixel
 Rmm = 2.42  # ball radius
+Rmm = 1.98  # ball radius
+
 R = Rmm / pixmm
 
 bg = cv2.imread('data/calibration/bg-0.jpg')
 
 def infer_gradient(feature):
-    model = torch.load('model/model2.pt')
-    gradient = model(torch.tensor(feature,dtype=torch.float32,device='cuda:0'))
+    model = torch.load('model/model3.pt',map_location=torch.device('cpu'))
+    gradient = model(torch.tensor(feature,dtype=torch.float32,device='cpu'))
 
     return gradient
 
@@ -90,9 +92,10 @@ def depth_map_plot(img):
     p.add_mesh(mesh, point_size=2, show_edges=True, lighting=False)
     p.show()
 
-for i in range(1,2):
+error_list = []
+for i in range(13,600):
 
-    data_path = 'data/calibration2/'
+    data_path = 'data/calibration3/'
     img = cv2.imread(data_path + 'cal-%d.jpg'%i)
 
     filepath = data_path + "ball_position/" + "cal-%d.txt"%i
@@ -116,7 +119,7 @@ for i in range(1,2):
     RGB, X, Y = get_input(affine_transform(img), valid_mask)
 
     feature = np.column_stack((RGB, X, Y))
-    gradient = infer_gradient(feature)
+    gradient = infer_gradient(feature[:,:5])
     gradient = np.array(gradient.tolist())
     gx = np.zeros((img.shape[0], img.shape[1]), dtype=np.float32)
     gy = np.zeros((img.shape[0], img.shape[1]), dtype=np.float32)
@@ -131,10 +134,12 @@ for i in range(1,2):
     ground_image = get_ground_image(affine_transform(img),R, center,radius,touch_mask.astype('float'))
 
     error = np.linalg.norm((img_ - ground_image).flatten(),ord=2)
+    error_list.append(error)
     print(error)
-
     depth_map_plot(img_)
 
     plt_show(img_)
     plt_show(ground_image)
     plt_show(abs(img_ - ground_image))
+
+print(np.mean(error_list))

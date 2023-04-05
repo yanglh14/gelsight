@@ -9,14 +9,16 @@ from gradient import get_gradient
 
 pixmm = 0.1  # 0.1mm/pixel
 Rmm = 2.42  # ball radius
+Rmm = 1.98  # ball radius
+
 R = Rmm / pixmm
-data_path = 'data/calibration2/'
+data_path = 'data/calibration3/'
 bg = cv2.imread(data_path+ 'bg-0.jpg')
 
 data_list = []
 
-for i in range(200):
-
+for i in range(13,621):
+    print(i)
     img = cv2.imread(data_path + 'cal-%d.jpg'%i)
     filepath = data_path + "ball_position/" + "cal-%d.txt"%i
     with open(filepath, 'r+') as f:
@@ -29,7 +31,7 @@ for i in range(200):
 
     dot_mask = get_marker_mask(affine_transform(img))
     _, touch_mask, center, _ = get_touch_mask_by_selection("circle_selector", affine_transform(bg), affine_transform(img),
-                                                           int(R),(x, y), radius)
+                                                           int(R),(x, y), radius,visual = False)
     valid_mask = (touch_mask / 255) * (1 - dot_mask / 255)
 
     RGB, X, Y, GX, GY = get_gradient(affine_transform(img), center, R, valid_mask)
@@ -40,4 +42,4 @@ for i in range(200):
     data_list.extend(data)
 
 
-np.save('./data/cal_dataset2',np.array(data_list))
+np.save('./data/cal_dataset3',np.array(data_list))

@@ -6,9 +6,7 @@ from torch.utils.data import TensorDataset
 from torch.utils.data import random_split
 
 
-def train(feature, label):
-
-    model = MLPEncoder_NOXY()
+def train(feature, label,model):
 
     # move model to gpu
     model.to('cuda:0')
@@ -79,8 +77,9 @@ def test_epoch(model, train_loader, loss_fn):
 
 if __name__=="__main__":
 
-    dataset = np.load('data/cal_dataset2.npy',allow_pickle=True)
+    dataset = np.load('data/cal_dataset3.npy',allow_pickle=True)
     dataset = torch.tensor(dataset,dtype=torch.float32,device='cuda:0')
-    model, diz_loss = train(dataset[:,:3], dataset[:,5:7])
-    torch.save(model,'./model/model_noxy.pt')
-    np.save('./model/loss_noxy', diz_loss)
+    model = MLPEncoder()
+    model, diz_loss = train(dataset[:,:5], dataset[:,5:7],model)
+    torch.save(model,'./model/model3.pt')
+    np.save('./model/loss3', diz_loss)
