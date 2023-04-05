@@ -48,7 +48,7 @@ pip install pytorch numpy opencv-python matplotlib scikit-image
 python 1_pixel_unit.py
 ```
 
-3. Preprocess the image using 'circle_mask.py' and prepare the dataset using `2_dataset.py`.
+3. Preprocess the image using `circle_mask.py` and prepare the dataset using `2_dataset.py`.
 
 4. Train the depth map reconstruction model using `3_train.py`. Run the script as follows:
 
