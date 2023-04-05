@@ -26,7 +26,7 @@ This repository contains the code to reconstruct depth maps from RGB images capt
 ## Requirements
 
 - Python 3.x
-- TensorFlow
+- Pytorch
 - NumPy
 - OpenCV
 - Matplotlib
@@ -35,7 +35,7 @@ This repository contains the code to reconstruct depth maps from RGB images capt
 You can install these dependencies using `pip`:
 
 ```bash
-pip install tensorflow numpy opencv-python matplotlib scikit-image
+pip install pytorch numpy opencv-python matplotlib scikit-image
 ```
 
 ## Usage
@@ -48,11 +48,7 @@ pip install tensorflow numpy opencv-python matplotlib scikit-image
 python 1_pixel_unit.py
 ```
 
-3. Preprocess and prepare the dataset using `2_dataset.py`. Run the script as follows:
-
-```bash
-python 2_dataset.py
-```
+3. Preprocess the image using 'circle_mask.py' and prepare the dataset using `2_dataset.py`.
 
 4. Train the depth map reconstruction model using `3_train.py`. Run the script as follows:
 
