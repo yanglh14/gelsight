@@ -4,7 +4,7 @@ This repository contains the code to reconstruct depth maps from RGB images capt
 
 ## Directory Structure
 
-\```
+```
 .
 ├── data/                   # Data folder containing the dataset
 ├── model/                  # Model folder containing saved models
@@ -21,7 +21,7 @@ This repository contains the code to reconstruct depth maps from RGB images capt
 ├── marker_mask.py           # Utility script for creating marker masks
 ├── model.py                 # Script containing the depth map reconstruction model
 └── plot.py                  # Utility script for plotting and visualizing data
-\```
+```
 
 ## Requirements
 
@@ -34,9 +34,9 @@ This repository contains the code to reconstruct depth maps from RGB images capt
 
 You can install these dependencies using `pip`:
 
-\```bash
+```bash
 pip install tensorflow numpy opencv-python matplotlib scikit-image
-\```
+```
 
 ## Usage
 
@@ -44,35 +44,35 @@ pip install tensorflow numpy opencv-python matplotlib scikit-image
 
 2. Define the pixel unit for the sensor using `1_pixel_unit.py`. Run the script as follows:
 
-\```bash
+```bash
 python 1_pixel_unit.py
-\```
+```
 
 3. Preprocess and prepare the dataset using `2_dataset.py`. Run the script as follows:
 
-\```bash
+```bash
 python 2_dataset.py
-\```
+```
 
 4. Train the depth map reconstruction model using `3_train.py`. Run the script as follows:
 
-\```bash
+```bash
 python 3_train.py
-\```
+```
 
 The trained model will be saved in the `model/` folder.
 
 5. Reconstruct depth maps from the trained model using `4_reconstruction.py`. Run the script as follows:
 
-\```bash
+```bash
 python 4_reconstruction.py
-\```
+```
 
 6. Test the reconstruction performance using `5_reconstruction_test.py`. Run the script as follows:
 
-\```bash
+```bash
 python 5_reconstruction_test.py
-\```
+```
 
 ## License
 
